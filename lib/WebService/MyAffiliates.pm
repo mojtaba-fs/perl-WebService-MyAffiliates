@@ -75,8 +75,7 @@ sub get_user_transactions {
     my $self = shift;
     my %args = @_ % 2 ? %{$_[0]} : @_;
 
-    $args{USER_ID} or croak "USER_ID is required.";
-    $args{SETUP_ID} or croak "SETUP_ID is required.";
+    $args{FROM_DATE} or croak 'FROM_DATE is reqired.';
 
     my $url = Mojo::URL->new('/feeds.php?FEED_ID=5');
     $url->query(\%args) if %args;
@@ -87,6 +86,10 @@ sub get_user_transactions {
 sub encode_token {
     my $self = shift;
     my %args = @_ % 2 ? %{$_[0]} : @_;
+
+    $args{USER_ID} or croak "USER_ID is required.";
+    $args{SETUP_ID} or croak "SETUP_ID is required.";
+
     my $url = Mojo::URL->new('/feeds.php?FEED_ID=6');
     $url->query(\%args) if %args;
     $self->request($url->to_string);
