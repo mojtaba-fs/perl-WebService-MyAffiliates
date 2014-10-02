@@ -3,7 +3,7 @@
 use strict;
 # use warnings;
 use WebService::MyAffiliates;
-use Data::Dumper;
+# use Data::Dumper;
 use Test::More;
 
 plan skip_all => "ENV MYAFFILIATES_USER/MYAFFILIATES_PASS/MYAFFILIATES_HOST is required to continue."

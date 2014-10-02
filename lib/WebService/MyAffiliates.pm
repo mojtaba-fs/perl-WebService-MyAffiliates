@@ -58,7 +58,8 @@ sub get_user {
     my ($self, $id) = @_;
 
     $id or croak "id is required.";
-    return $self->get_users(USER_ID => $id);
+    my $user = $self->get_users(USER_ID => $id) or return;
+    return $user->{USER};
 }
 
 ## https://myaffiliates.atlassian.net/wiki/display/PUB/Feed+4%3A+Decode+Token
@@ -184,11 +185,9 @@ L<https://myaffiliates.atlassian.net/wiki/display/PUB/Feed+1%3A+Users+Feed>
 
 =head2 get_user
 
-    my $user_info = $aff->get_user($id);
+    my $user_info = $aff->get_user($id); # { ID => ... }
 
-alias of
-
-    my $user_info = $aff->get_users(USER_ID => $id);
+call get_users(USER_ID => $id) with the top evel USER key removed.
 
 =head2 decode_token
 

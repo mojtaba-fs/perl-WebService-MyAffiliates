@@ -49,11 +49,9 @@ Feed 1: Users Feed
 
 ## get\_user
 
-    my $user_info = $aff->get_user($id);
+    my $user_info = $aff->get_user($id); # { ID => ... }
 
-alias of
-
-    my $user_info = $aff->get_users(USER_ID => $id);
+call get\_users(USER\_ID => $id) with the top evel USER key removed.
 
 ## decode\_token
 
