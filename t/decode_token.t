@@ -3,7 +3,6 @@
 use strict;
 # use warnings;
 use WebService::MyAffiliates;
-# use Data::Dumper;
 use Test::More;
 
 plan skip_all => "ENV MYAFFILIATES_USER/MYAFFILIATES_PASS/MYAFFILIATES_HOST is required to continue."
@@ -15,6 +14,8 @@ my $aff = WebService::MyAffiliates->new(
 );
 
 my $token_info = $aff->decode_token('PQ4YXsO2q5mVAv0U_Fv2nWNd7ZgqdRLk');
+# use Data::Dumper;
+# diag(Dumper(\$token_info));
 is(ref $token_info->{'TOKEN'}, 'HASH', 'We got data back about one token, so the ->{\'TOKEN\'} key is a hash ref.');
 ok($token_info->{TOKEN}->{USER}, 'USER exists');
 
