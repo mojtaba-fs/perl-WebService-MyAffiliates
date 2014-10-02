@@ -21,6 +21,9 @@ ok($token_info->{TOKEN}->{USER}, 'USER exists');
 my $token_info = $aff->decode_token('PQ4YXsO2q5mVAv0U_Fv2nWNd7ZgqdRLk', 'PQ4YXsO2q5mVAv0U_Fv2nWNd7ZgqdRLk');
 is(ref $token_info->{'TOKEN'}, 'ARRAY', 'Got data back about two tokens, so the ->{\'TOKEN\'} key is an array ref.');
 
+my $affiliate_id = $aff->get_affiliate_id_from_token('jGZUKO3JWgyVAv0U_Fv2nVOqZLGcUW5p');
+is($affiliate_id, 6, 'Token has affiliate id 6');
+
 done_testing();
 
 1;

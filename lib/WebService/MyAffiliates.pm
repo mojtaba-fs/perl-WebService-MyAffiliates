@@ -46,10 +46,9 @@ sub __ua {
 }
 
 ## https://myaffiliates.atlassian.net/wiki/display/PUB/Feed+4%3A+Decode+Token
-
 sub decode_token {
     my $self = shift;
-    my @tokens = @_;
+    my @tokens = @_ or croak 'Must pass at least one token.';
 
     $self->request('/feeds.php?FEED_ID=4&TOKENS=' . url_escape(join(',', @tokens)));
 }
@@ -67,7 +66,7 @@ sub request {
     my $tx = $ua->build_tx($method => $self->{host} . $url => $header => @extra);
 
     $tx = $ua->start($tx);
-    use Data::Dumper; print STDERR Dumper(\$tx);
+    # use Data::Dumper; print STDERR Dumper(\$tx);
     if ($tx->res->headers->content_type and $tx->res->headers->content_type =~ 'text/xml') {
         return XMLin($tx->res->body);
     }
@@ -78,6 +77,16 @@ sub request {
 
     $errstr = "Unknown Response.";
     return;
+}
+
+## un-documented helper
+sub get_affiliate_id_from_token {
+    my ($self, $token) = @_;
+
+    $token or croak 'Must pass a token to get_affiliate_id_from_token.';
+
+    my $token_info = $self->decode_token($token) or return;
+    return $token_info->{TOKEN}->{USER_ID};
 }
 
 1;
