@@ -20,8 +20,12 @@ my %WriteMakefileArgs = (
   "EXE_FILES" => [],
   "LICENSE" => "perl",
   "NAME" => "WebService::MyAffiliates",
-  "PREREQ_PM" => {},
+  "PREREQ_PM" => {
+    "Mojo::UserAgent" => 0,
+    "XML::Simple" => 0
+  },
   "TEST_REQUIRES" => {
+    "Test::Exception" => 0,
     "Test::More" => "0.96"
   },
   "VERSION" => "0.01",
@@ -32,7 +36,10 @@ my %WriteMakefileArgs = (
 
 
 my %FallbackPrereqs = (
-  "Test::More" => "0.96"
+  "Mojo::UserAgent" => 0,
+  "Test::Exception" => 0,
+  "Test::More" => "0.96",
+  "XML::Simple" => 0
 );
 
 

@@ -45,12 +45,50 @@ sub __ua {
     return $ua;
 }
 
+## https://myaffiliates.atlassian.net/wiki/display/PUB/Feed+1%3A+Users+Feed
+sub get_users {
+    my $self = shift;
+    my %args = @_ % 2 ? %{$_[0]} : @_;
+    my $url = Mojo::URL->new('/feeds.php?FEED_ID=1');
+    $url->query(\%args) if %args;
+    $self->request($url->to_string);
+}
+
+sub get_user {
+    my ($self, $id) = @_;
+
+    $id or croak "id is required.";
+    return $self->get_users(USER_ID => $id);
+}
+
 ## https://myaffiliates.atlassian.net/wiki/display/PUB/Feed+4%3A+Decode+Token
 sub decode_token {
     my $self = shift;
     my @tokens = @_ or croak 'Must pass at least one token.';
 
     $self->request('/feeds.php?FEED_ID=4&TOKENS=' . url_escape(join(',', @tokens)));
+}
+
+## https://myaffiliates.atlassian.net/wiki/display/PUB/Feed+6%3A+User+Transactions+Feed
+sub get_user_transactions {
+    my $self = shift;
+    my %args = @_ % 2 ? %{$_[0]} : @_;
+
+    $args{USER_ID} or croak "USER_ID is required.";
+    $args{SETUP_ID} or croak "SETUP_ID is required.";
+
+    my $url = Mojo::URL->new('/feeds.php?FEED_ID=5');
+    $url->query(\%args) if %args;
+    $self->request($url->to_string);
+}
+
+## https://myaffiliates.atlassian.net/wiki/display/PUB/Feed+5%3A+Encode+Token
+sub encode_token {
+    my $self = shift;
+    my %args = @_ % 2 ? %{$_[0]} : @_;
+    my $url = Mojo::URL->new('/feeds.php?FEED_ID=6');
+    $url->query(\%args) if %args;
+    $self->request($url->to_string);
 }
 
 sub request {
@@ -134,14 +172,55 @@ required. the Basic Auth url/host.
 
 =back
 
-=head2 decode_token
+=head2 get_users
 
-L<https://myaffiliates.atlassian.net/wiki/display/PUB/Feed+4%3A+Decode+Token>
+Feed 1: Users Feed
+
+L<https://myaffiliates.atlassian.net/wiki/display/PUB/Feed+1%3A+Users+Feed>
+
+    my $user_info = $aff->get_users(USER_ID => $id);
+    my $user_info = $aff->get_users(STATUS => 'new');
+    my $user_info = $aff->get_users(VARIABLE_NAME => 'n', VARIABLE_VALUE => 'v');
+
+=head2 get_user
+
+    my $user_info = $aff->get_user($id);
+
+alias of
+
+    my $user_info = $aff->get_users(USER_ID => $id);
+
+=head2 decode_token
 
 Feed 4: Decode Token
 
+L<https://myaffiliates.atlassian.net/wiki/display/PUB/Feed+4%3A+Decode+Token>
+
     my $token_info = $aff->decode_token($token); # $token_info is a HASH which contains TOKEN key
     my $token_info = $aff->decode_token($tokenA, $tokenB);
+
+=head2 encode_token
+
+Feed 5: Encode Token
+
+L<https://myaffiliates.atlassian.net/wiki/display/PUB/Feed+5%3A+Encode+Token>
+
+    my $token_info = $aff->encode_token(
+        USER_ID  => 1,
+        SETUP_ID => 7
+    );
+
+=head2 get_user_transactions
+
+Feed 6: User Transactions Feed
+
+L<https://myaffiliates.atlassian.net/wiki/display/PUB/Feed+6%3A+User+Transactions+Feed>
+
+    my $transactions = $aff->get_user_transactions(
+        'USER_ID'   => $id,
+        'FROM_DATE' => '2011-12-31',
+        'TO_DATE'   => '2012-01-31',
+    );
 
 =head1 AUTHOR
 

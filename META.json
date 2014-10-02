@@ -36,11 +36,14 @@
       },
       "runtime" : {
          "requires" : {
+            "Mojo::UserAgent" : "0",
+            "XML::Simple" : "0",
             "perl" : "5.008005"
          }
       },
       "test" : {
          "requires" : {
+            "Test::Exception" : "0",
             "Test::More" : "0.96"
          }
       }
