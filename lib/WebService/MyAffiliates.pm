@@ -153,6 +153,8 @@ WebService::MyAffiliates - Interface to myaffiliates.com API
 
 WebService::MyAffiliates is Perl interface to L<http://www.myaffiliates.com/xmlapi>
 
+It's incompleted. patches are welcome with pull-requests of L<https://github.com/binary-com/perl-WebService-MyAffiliates>
+
 =head1 METHODS
 
 =head2 new
