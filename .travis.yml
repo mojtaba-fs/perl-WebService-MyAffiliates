@@ -6,6 +6,9 @@ perl:
     - "5.12"
     - "5.10"
 before_install:
+    - "cpanm Mojo::UserAgent"
+    - "cpanm Moo"
+    - "cpanm XML::Simple"
     - "cpanm Test::More"
     - "cpanm Devel::Cover::Report::Coveralls"
 script:
