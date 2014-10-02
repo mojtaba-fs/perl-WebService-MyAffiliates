@@ -1,6 +1,5 @@
 requires 'perl', '5.008005';
 
-requires 'Moo';
 requires 'XML::Simple';
 requires 'Mojo::UserAgent';
 

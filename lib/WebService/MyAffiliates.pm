@@ -80,8 +80,6 @@ sub request {
     return;
 }
 
-no Moo;
-
 1;
 __END__
 
