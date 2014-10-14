@@ -62,7 +62,8 @@
    },
    "version" : "0.02",
    "x_contributors" : [
-      "Jean-Yves Sireau <jy@binary.com>"
+      "Jean-Yves Sireau <jy@binary.com>",
+      "The Gitter Badger <badger@gitter.im>"
    ]
 }
 
