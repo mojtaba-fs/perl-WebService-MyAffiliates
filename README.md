@@ -2,6 +2,7 @@
 [![Coverage Status](https://coveralls.io/repos/binary-com/perl-WebService-MyAffiliates/badge.png?branch=master)](https://coveralls.io/r/binary-com/perl-WebService-MyAffiliates?branch=master)
 
 # NAME
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/binary-com/perl-WebService-MyAffiliates?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 WebService::MyAffiliates - Interface to myaffiliates.com API
 
