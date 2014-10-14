@@ -60,7 +60,7 @@
          "web" : "https://github.com/binary-com/perl-WebService-MyAffiliates"
       }
    },
-   "version" : "0.03",
+   "version" : "0.04",
    "x_contributors" : [
       "Jean-Yves Sireau <jy@binary.com>",
       "The Gitter Badger <badger@gitter.im>"
