@@ -2,7 +2,7 @@ package WebService::MyAffiliates;
 
 use strict;
 use 5.008_005;
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 use Carp;
 use Mojo::UserAgent;
@@ -38,7 +38,7 @@ sub __ua {
     $ua->max_redirects(3);
     $ua->inactivity_timeout($self->{timeout});
     $ua->proxy->detect; # env proxy
-    $ua->cookie_jar(0);
+    $ua->cookie_jar->ignore(sub { 1 }); # ignore all cookies
     $ua->max_connections(100);
     $self->{ua} = $ua;
 
