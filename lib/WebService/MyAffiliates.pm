@@ -38,7 +38,6 @@ sub __ua {
     $ua->max_redirects(3);
     $ua->inactivity_timeout($self->{timeout});
     $ua->proxy->detect; # env proxy
-    $ua->cookie_jar->ignore(sub { 1 }); # ignore all cookies
     $ua->max_connections(100);
     $self->{ua} = $ua;
 
