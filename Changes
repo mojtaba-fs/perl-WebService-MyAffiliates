@@ -1,6 +1,7 @@
 Revision history for WebService-MyAffiliates
 
 {{$NEXT}}
+        - fix requiresments from Mojo::UserAgent to Mojolicious for version
 
 0.06  2016-01-11 11:59:55 CST
         - remove cookie_jar set

@@ -21,14 +21,14 @@ my %WriteMakefileArgs = (
   "MIN_PERL_VERSION" => "5.008005",
   "NAME" => "WebService::MyAffiliates",
   "PREREQ_PM" => {
-    "Mojo::UserAgent" => "6.36",
+    "Mojolicious" => "6.36",
     "XML::Simple" => 0
   },
   "TEST_REQUIRES" => {
     "Test::Exception" => 0,
     "Test::More" => "0.96"
   },
-  "VERSION" => "0.06",
+  "VERSION" => "0.07",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -37,7 +37,7 @@ my %WriteMakefileArgs = (
 
 my %FallbackPrereqs = (
   "ExtUtils::MakeMaker" => 0,
-  "Mojo::UserAgent" => "6.36",
+  "Mojolicious" => "6.36",
   "Test::Exception" => 0,
   "Test::More" => "0.96",
   "XML::Simple" => 0
