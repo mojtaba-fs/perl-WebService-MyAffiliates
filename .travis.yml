@@ -13,10 +13,10 @@ before_install:
     - source ~/travis-perl-helpers/init
     - build-perl
     - perl -V
-    - "cpanm Mojo::UserAgent"
-    - "cpanm XML::Simple"
-    - "cpanm Test::More"
-    - "cpanm Test::Exception"
-    - "cpanm Devel::Cover::Report::Coveralls"
+    - "cpanm -n Mojo::UserAgent"
+    - "cpanm -n XML::Simple"
+    - "cpanm -n Test::More"
+    - "cpanm -n Test::Exception"
+    - "cpanm -n Devel::Cover::Report::Coveralls"
 script:
   perl Makefile.PL && make test && cover -test -report coveralls
