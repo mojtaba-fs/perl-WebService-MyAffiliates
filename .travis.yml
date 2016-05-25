@@ -1,15 +1,22 @@
 language: perl
 perl:
+    - "5.24"
+    - "5.22"
+    - "5.20"
     - "5.18"
     - "5.16"
     - "5.14"
     - "5.12"
     - "5.10"
 before_install:
-    - "cpanm Mojo::UserAgent"
-    - "cpanm XML::Simple"
-    - "cpanm Test::More"
-    - "cpanm Test::Exception"
-    - "cpanm Devel::Cover::Report::Coveralls"
+    - git clone git://github.com/travis-perl/helpers ~/travis-perl-helpers
+    - source ~/travis-perl-helpers/init
+    - build-perl
+    - perl -V
+    - "cpanm -n Mojo::UserAgent"
+    - "cpanm -n XML::Simple"
+    - "cpanm -n Test::More"
+    - "cpanm -n Test::Exception"
+    - "cpanm -n Devel::Cover::Report::Coveralls"
 script:
   perl Makefile.PL && make test && cover -test -report coveralls
