@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/binary-com/perl-WebService-MyAffiliates.svg?branch=master)](https://travis-ci.org/binary-com/perl-WebService-MyAffiliates)
-[![Coverage Status](https://coveralls.io/repos/binary-com/perl-WebService-MyAffiliates/badge.png?branch=master)](https://coveralls.io/r/binary-com/perl-WebService-MyAffiliates?branch=master)
+[![codecov](https://codecov.io/gh/binary-com/perl-WebService-MyAffiliates/branch/master/graph/badge.svg)](https://codecov.io/gh/binary-com/perl-WebService-MyAffiliates)
 [![Gitter chat](https://badges.gitter.im/binary-com/perl-WebService-MyAffiliates.png)](https://gitter.im/binary-com/perl-WebService-MyAffiliates)
 
 # NAME
