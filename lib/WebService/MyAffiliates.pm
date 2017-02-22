@@ -1,7 +1,7 @@
 package WebService::MyAffiliates;
 
 use strict;
-use 5.008_005;
+use warnings;
 our $VERSION = '0.07';
 
 use Carp;
@@ -10,9 +10,9 @@ use Mojo::Util qw(b64_encode url_escape);
 use XML::Simple 'XMLin';
 
 use vars qw/$errstr/;
-sub errstr { $errstr }
+sub errstr { return $errstr }
 
-sub new {
+sub new { ## no critic (ArgUnpacking)
     my $class = shift;
     my %args  = @_ % 2 ? %{$_[0]} : @_;
 
@@ -45,12 +45,12 @@ sub __ua {
 }
 
 ## https://myaffiliates.atlassian.net/wiki/display/PUB/Feed+1%3A+Users+Feed
-sub get_users {
+sub get_users { ## no critic (ArgUnpacking)
     my $self = shift;
     my %args = @_ % 2 ? %{$_[0]} : @_;
     my $url = Mojo::URL->new('/feeds.php?FEED_ID=1');
     $url->query(\%args) if %args;
-    $self->request($url->to_string);
+    return $self->request($url->to_string);
 }
 
 sub get_user {
@@ -66,11 +66,11 @@ sub decode_token {
     my $self = shift;
     my @tokens = @_ or croak 'Must pass at least one token.';
 
-    $self->request('/feeds.php?FEED_ID=4&TOKENS=' . url_escape(join(',', @tokens)));
+    return $self->request('/feeds.php?FEED_ID=4&TOKENS=' . url_escape(join(',', @tokens)));
 }
 
 ## https://myaffiliates.atlassian.net/wiki/display/PUB/Feed+5%3A+Encode+Token
-sub encode_token {
+sub encode_token { ## no critic (ArgUnpacking)
     my $self = shift;
     my %args = @_ % 2 ? %{$_[0]} : @_;
 
@@ -79,11 +79,11 @@ sub encode_token {
 
     my $url = Mojo::URL->new('/feeds.php?FEED_ID=5');
     $url->query(\%args) if %args;
-    $self->request($url->to_string);
+    return $self->request($url->to_string);
 }
 
 ## https://myaffiliates.atlassian.net/wiki/display/PUB/Feed+6%3A+User+Transactions+Feed
-sub get_user_transactions {
+sub get_user_transactions { ## no critic (ArgUnpacking)
     my $self = shift;
     my %args = @_ % 2 ? %{$_[0]} : @_;
 
@@ -91,7 +91,7 @@ sub get_user_transactions {
 
     my $url = Mojo::URL->new('/feeds.php?FEED_ID=6');
     $url->query(\%args) if %args;
-    $self->request($url->to_string);
+    return $self->request($url->to_string);
 }
 
 sub request {
@@ -149,6 +149,7 @@ WebService::MyAffiliates - Interface to myaffiliates.com API
         host => 'admin.example.com'
     );
 
+    my $token; # initial it
     my $token_info = $aff->decode_token($token) or die $aff->errstr;
 
 =head1 DESCRIPTION
@@ -224,6 +225,12 @@ L<https://myaffiliates.atlassian.net/wiki/display/PUB/Feed+6%3A+User+Transaction
         'FROM_DATE' => '2011-12-31',
         'TO_DATE'   => '2012-01-31',
     );
+
+=head2 errstr
+
+=head2 get_affiliate_id_from_token
+
+=head2 request
 
 =head1 AUTHOR
 
