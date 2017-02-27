@@ -2,7 +2,7 @@ package WebService::MyAffiliates;
 
 use strict;
 use warnings;
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 
 use Carp;
 use Mojo::UserAgent;
@@ -12,9 +12,9 @@ use XML::Simple 'XMLin';
 use vars qw/$errstr/;
 sub errstr { return $errstr }
 
-sub new { ## no critic (ArgUnpacking)
+sub new {    ## no critic (ArgUnpacking)
     my $class = shift;
-    my %args  = @_ % 2 ? %{$_[0]} : @_;
+    my %args = @_ % 2 ? %{$_[0]} : @_;
 
     for (qw/user pass host/) {
         $args{$_} || croak "Param $_ is required.";
@@ -24,7 +24,7 @@ sub new { ## no critic (ArgUnpacking)
     $args{host} = 'http://' . $args{host} unless $args{host} =~ m{^https?\://};
     $args{host} =~ s{/$}{};
 
-    $args{timeout}  ||= 30; # for ua timeout
+    $args{timeout} ||= 30;    # for ua timeout
 
     return bless \%args, $class;
 }
@@ -37,7 +37,7 @@ sub __ua {
     my $ua = Mojo::UserAgent->new;
     $ua->max_redirects(3);
     $ua->inactivity_timeout($self->{timeout});
-    $ua->proxy->detect; # env proxy
+    $ua->proxy->detect;    # env proxy
     $ua->max_connections(100);
     $self->{ua} = $ua;
 
@@ -45,10 +45,10 @@ sub __ua {
 }
 
 ## https://myaffiliates.atlassian.net/wiki/display/PUB/Feed+1%3A+Users+Feed
-sub get_users { ## no critic (ArgUnpacking)
+sub get_users {            ## no critic (ArgUnpacking)
     my $self = shift;
     my %args = @_ % 2 ? %{$_[0]} : @_;
-    my $url = Mojo::URL->new('/feeds.php?FEED_ID=1');
+    my $url  = Mojo::URL->new('/feeds.php?FEED_ID=1');
     $url->query(\%args) if %args;
     return $self->request($url->to_string);
 }
@@ -70,11 +70,11 @@ sub decode_token {
 }
 
 ## https://myaffiliates.atlassian.net/wiki/display/PUB/Feed+5%3A+Encode+Token
-sub encode_token { ## no critic (ArgUnpacking)
+sub encode_token {    ## no critic (ArgUnpacking)
     my $self = shift;
     my %args = @_ % 2 ? %{$_[0]} : @_;
 
-    $args{USER_ID} or croak "USER_ID is required.";
+    $args{USER_ID}  or croak "USER_ID is required.";
     $args{SETUP_ID} or croak "SETUP_ID is required.";
 
     my $url = Mojo::URL->new('/feeds.php?FEED_ID=5');
@@ -83,7 +83,7 @@ sub encode_token { ## no critic (ArgUnpacking)
 }
 
 ## https://myaffiliates.atlassian.net/wiki/display/PUB/Feed+6%3A+User+Transactions+Feed
-sub get_user_transactions { ## no critic (ArgUnpacking)
+sub get_user_transactions {    ## no critic (ArgUnpacking)
     my $self = shift;
     my %args = @_ % 2 ? %{$_[0]} : @_;
 
@@ -99,19 +99,17 @@ sub request {
 
     $method ||= 'GET';
 
-    my $ua = $self->__ua;
-    my $header = {
-        Authorization => 'Basic ' . b64_encode($self->{user} . ':' . $self->{pass}, '')
-    };
-    my @extra = %params ? (form => \%params) : ();
-    my $tx = $ua->build_tx($method => $self->{host} . $url => $header => @extra);
+    my $ua     = $self->__ua;
+    my $header = {Authorization => 'Basic ' . b64_encode($self->{user} . ':' . $self->{pass}, '')};
+    my @extra  = %params ? (form => \%params) : ();
+    my $tx     = $ua->build_tx($method => $self->{host} . $url => $header => @extra);
 
     $tx = $ua->start($tx);
     # use Data::Dumper; print STDERR Dumper(\$tx);
     if ($tx->res->headers->content_type and $tx->res->headers->content_type =~ 'text/xml') {
         return XMLin($tx->res->body);
     }
-    if (! $tx->success) {
+    if (!$tx->success) {
         $errstr = $tx->error->{message};
         return;
     }
