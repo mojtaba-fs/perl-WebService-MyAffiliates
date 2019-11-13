@@ -7,7 +7,7 @@ our $VERSION = '0.08';
 use Carp;
 use Mojo::UserAgent;
 use Mojo::Util qw(b64_encode url_escape);
-use XML::Simple 'XMLin';
+use XML::Simple 'XMLin'; ## no critic
 
 use vars qw/$errstr/;
 sub errstr { return $errstr }
@@ -92,6 +92,21 @@ sub get_user_transactions {    ## no critic (ArgUnpacking)
     my $url = Mojo::URL->new('/feeds.php?FEED_ID=6');
     $url->query(\%args) if %args;
     return $self->request($url->to_string);
+}
+
+sub get_customers {    ## no critic (ArgUnpacking)
+    my $self = shift;
+    my %args = @_ % 2 ? %{$_[0]} : @_;
+
+    my $url = Mojo::URL->new('/feeds.php?FEED_ID=10');
+    $url->query(\%args) if %args;
+    my $res = $self->request($url->to_string);
+
+    my $customers = !exists $res->{PLAYER}        ? []
+                  : ref $res->{PLAYER} eq 'ARRAY' ? $res->{PLAYER}
+                  :                                 [$res->{PLAYER}];
+
+    return $customers;
 }
 
 sub request {
@@ -223,6 +238,13 @@ L<https://myaffiliates.atlassian.net/wiki/display/PUB/Feed+6%3A+User+Transaction
         'FROM_DATE' => '2011-12-31',
         'TO_DATE'   => '2012-01-31',
     );
+
+=head2 get_customers
+
+Feed 10: User Customers Feed.
+Returns Array ref with customer list.
+
+    my $customers = $aff->get_customers( AFFILIATE_ID => $affiliate_id );
 
 =head2 errstr
 
