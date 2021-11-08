@@ -53,6 +53,28 @@ sub get_users {            ## no critic (ArgUnpacking)
     return $self->request($url->to_string);
 }
 
+sub create_affiliate {            ## no critic (ArgUnpacking)
+    my $self = shift;
+    my %args = @_ % 2 ? %{$_[0]} : @_;
+    my $parameters = +{map { ('PARAM_' . $_ => $args{$_}) } keys %args};
+
+    my $url = Mojo::URL->new('/feeds.php?FEED_ID=26');
+    $url->query($parameters);
+    my $res = $self->request($url->to_string);
+
+    my $error_count = $res->{INIT}->{ERROR_COUNT};
+    if ($error_count) {
+        my $init = $res->{INIT};
+        my @errors = ref $init->{ERROR} eq 'ARRAY' ? $init->{ERROR}->@* : ($init->{ERROR});
+        $errstr = map { $_->{MSG} . " " . $_->{DETAIL} } @errors;
+        return;
+    }
+
+    delete $res->{PASSWORD};
+
+    return $res;
+}
+
 sub get_user {
     my ($self, $id) = @_;
 
@@ -245,6 +267,54 @@ Feed 10: User Customers Feed.
 Returns Array ref with customer list.
 
     my $customers = $aff->get_customers( AFFILIATE_ID => $affiliate_id );
+
+
+=head2 create_affiliate
+
+Feed 26:Create Affiliate
+
+L<https://myaffiliates.atlassian.net/wiki/display/PUB/Feed+26%3A+Create+Affiliate>
+
+    my $res = $aff->create_affiliate({
+        'first_name'     => 'Chales',
+        'last_name'     => 'Babbage',
+        'date_of_birth' => '1871-10-18',
+        'individual'    => 'individual',
+        'phone_number'  => '+4412341234',
+        'address'       => 'Some street',
+        'city'          => 'Some City',
+        'state'         => 'Some State',
+        'postcode'      => '1234',
+        'website'       => 'https://www.example.com/',
+        'agreement'     => 1,
+        'username'      => 'charles_babbage.com',
+        'email'         => 'charles@babbage.com',
+        'country'       => 'GB',
+        'password'      => 's3cr3t',
+        'plans'         => '2,4'
+    });
+
+    $res->{USERID};
+
+It expects a hashref with all the required parameters for account creation. Other fields may be required depending on your installation.
+
+=over 4
+
+=item * username: A non-empty string with the username, must be an alphanumeric unique string.
+
+=item * password: A non-empty string with the password, following configured the password policy.
+
+=item * email: A non-empty string with a valid e-mail account. It must be unique.
+
+=item * referrer_token: Optional. A non-empty string with subaffiliate token.
+
+=item * plans: Optional. A non-empty string with CSV with the channel numeric IDs to subscribe the client. MyAffiliates will also subscribe the client to any default channel unless B<PLAN_FORCE> is set to 1.
+
+=item * PLAN_FORCE: Optional. For use with plans, if 1 is set here the client will be subscribe to the channels listed in C<plans> parameters only, and won't be subscribed to any other channel. By default this is is 0.
+
+=back
+
+Returns a hashref with the details for the created account, in particular a numeric user_id will be returned in the hashref.
 
 =head2 errstr
 
