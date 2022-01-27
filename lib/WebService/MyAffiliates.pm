@@ -165,6 +165,15 @@ sub get_affiliate_id_from_token {
     return $token_info->{TOKEN}->{USER_ID};
 }
 
+sub get_affiliate_email_from_token {
+    my ($self, $token) = @_;
+
+    $token or croak 'Must pass a token to get_affiliate_id_from_token.';
+
+    my $token_info = $self->decode_token($token) or return;
+    return $token_info->{TOKEN}->{USER}->{EMAIL};
+}
+
 1;
 __END__
 
