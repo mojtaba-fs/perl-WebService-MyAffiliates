@@ -331,6 +331,8 @@ Returns a hashref with the details for the created account, in particular a nume
 
 =head2 request
 
+=head2 get_affiliate_email_from_token
+
 =head1 AUTHOR
 
 Binary.com E<lt>fayland@binary.comE<gt>
