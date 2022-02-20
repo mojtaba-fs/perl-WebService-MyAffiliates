@@ -165,6 +165,20 @@ sub get_affiliate_id_from_token {
     return $token_info->{TOKEN}->{USER_ID};
 }
 
+=head2 get_affiliate_email_from_token
+
+Get affiliate email from user token
+
+=over 4
+
+=item * C<token> - token to get email from
+
+=back
+
+Returns Email string
+
+=cut
+
 sub get_affiliate_email_from_token {
     my ($self, $token) = @_;
 
@@ -330,8 +344,6 @@ Returns a hashref with the details for the created account, in particular a nume
 =head2 get_affiliate_id_from_token
 
 =head2 request
-
-=head2 get_affiliate_email_from_token
 
 =head1 AUTHOR
 
