@@ -182,7 +182,7 @@ Returns Email string
 sub get_affiliate_email_from_token {
     my ($self, $token) = @_;
 
-    $token or croak 'Must pass a token to get_affiliate_email_from_token.';
+    croak 'Must pass a token to get_affiliate_email_from_token.' unless $token;
 
     my $token_info = $self->decode_token($token) or return;
     return $token_info->{TOKEN}->{USER}->{EMAIL};
