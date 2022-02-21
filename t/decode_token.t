@@ -26,7 +26,7 @@ my $affiliate_id = $aff->get_affiliate_id_from_token('jGZUKO3JWgyVAv0U_Fv2nVOqZL
 is($affiliate_id, 6, 'Token has affiliate id 6');
 
 my $affiliate_email = $aff->get_affiliate_email_from_token('jGZUKO3JWgyVAv0U_Fv2nVOqZLGcUW5p');
-is($affiliate_email, 'dummy@regentmarkets.com', 'Token has affiliate id 6');
+is($affiliate_email, 'dummy@regentmarkets.com', 'Token has affiliate email dummy@regentmarkets.com');
 
 done_testing();
 
